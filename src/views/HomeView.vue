@@ -1,18 +1,20 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    {{ $t('message') }}
+    <NewSplit v-if="!$route.params.id"></NewSplit>
+    <ListSplit v-else></ListSplit>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import NewSplit from './NewSplit.vue';
+import ListSplit from './ListSplit.vue';
 
 export default defineComponent({
   name: 'HomeView',
   components: {
-    HelloWorld,
-  },
+    NewSplit, ListSplit
+  }
 });
 </script>

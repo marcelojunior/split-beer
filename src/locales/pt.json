@@ -1,0 +1,28 @@
+{
+    "currency": {
+        "style": "currency",
+        "currency": "BRL"
+    },
+    "message": "ola i18n !!",
+    "valueToSplit": "Insira o valor para dividir.",
+    "listDescription": "Descreva o que está sendo dividido.",
+    "newList": "Nova lista",
+    "createList": "Criar lista",
+    "descriptionRequired": "Coloque uma breve descrição de sua lista.",
+    "edit": "Editar",
+    "saveNewValue": "Salvar novo valor",
+    "saveChanges": "Salvar alterações",
+    "addName": "Adicione seu nome",
+    "yourName": "Seu nome",
+    "requiredField": "Campo obrigatório",
+    "sponsored": "Você ajudou com algum valor? Informe abaixo (opcional).",
+    "sponsoredTip": "Seu valor irá abater o valor total. Os demais irão pagar o restante, divido entre o número de nomes da lista.",
+    "sponsoredTag": "Pago adiantado",
+    "paid": "Pago",
+    "save": "Salvar",
+    "pay": "Pagar",
+    "delete": "Excluir",
+    "confirmDelete": "Deseja mesmo excluir?",
+    "close": "Fechar",
+    "paidValue": "Valor pago"
+}

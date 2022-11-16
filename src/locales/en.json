@@ -1,0 +1,28 @@
+{
+  "currency": {
+    "style": "currency",
+    "currency": "USD"
+  },
+  "message": "hello i18n !!",
+  "valueToSplit": "Insert the value to split.",
+  "listDescription": "Describe what is being shared.",
+  "newList": "New List",
+  "createList": "Create List",
+  "descriptionRequired": "Enter a brief description of your list.",
+  "edit": "Edit",
+  "saveNewValue": "Salve new value",
+  "saveChanges": "Salvar changes",
+  "addName": "Add your name",
+  "yourName": "Your name",
+  "requiredField": "Required field",
+  "sponsored": "Did you help with any value? Enter below (optional).",
+  "sponsoredTip": "Its value will subtract from the total value. The others will pay the rest, divided between the number of names on the list.",
+  "sponsoredTag": "Early paid",
+  "paid": "Paid",
+  "save": "Save",
+  "pay": "pay",
+  "delete": "Delete",
+  "confirmDelete": "Do you really want to delete?",
+  "close": "Close",
+  "paidValue": "Paid value"
+}
