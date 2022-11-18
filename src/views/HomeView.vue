@@ -1,20 +1,19 @@
 <template>
   <div class="home">
-    {{ $t('message') }}
-    <NewSplit v-if="!$route.params.id"></NewSplit>
-    <ListSplit v-else></ListSplit>
+    <NewView v-if="!$route.params.id"></NewView>
+    <ListView v-else></ListView>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import NewSplit from './NewSplit.vue';
-import ListSplit from './ListSplit.vue';
+import NewView from './NewView.vue';
+import ListView from './ListView.vue';
 
 export default defineComponent({
   name: 'HomeView',
   components: {
-    NewSplit, ListSplit
+    NewView, ListView
   }
 });
 </script>

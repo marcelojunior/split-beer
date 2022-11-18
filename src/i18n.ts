@@ -20,8 +20,12 @@ function loadLocaleMessages(): any {
 }
 
 function locale(): string {
+  const storageLocale = localStorage.getItem('locale');
+  if (storageLocale){
+    return storageLocale;
+  }
+  
   const locales = loadLocaleMessages();
-  console.log(locales)
   let currentLocale = navigator.language;
 
   if (locales[currentLocale]){
@@ -29,7 +33,7 @@ function locale(): string {
   }
 
   currentLocale = currentLocale.split('-')[0]
-  
+
   if (locales[currentLocale]){
     return currentLocale;
   }

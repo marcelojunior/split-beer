@@ -1,8 +1,4 @@
 {
-    "currency": {
-        "style": "currency",
-        "currency": "BRL"
-    },
     "message": "ola i18n !!",
     "valueToSplit": "Insira o valor para dividir.",
     "listDescription": "Descreva o que está sendo dividido.",
@@ -15,14 +11,25 @@
     "addName": "Adicione seu nome",
     "yourName": "Seu nome",
     "requiredField": "Campo obrigatório",
-    "sponsored": "Você ajudou com algum valor? Informe abaixo (opcional).",
+    "sponsored": "Você ajudou com algum valor?",
     "sponsoredTip": "Seu valor irá abater o valor total. Os demais irão pagar o restante, divido entre o número de nomes da lista.",
     "sponsoredTag": "Pago adiantado",
     "paid": "Pago",
     "save": "Salvar",
     "pay": "Pagar",
+    "paidN": "Já paguei {n}",
     "delete": "Excluir",
     "confirmDelete": "Deseja mesmo excluir?",
     "close": "Fechar",
-    "paidValue": "Valor pago"
+    "paidValue": "Valor pago",
+    "didYouPay": "Você já pagou este valor?",
+    "copyListToShare": "Copiar lista para compartilhar",
+    "copyListToShareTip": "Copie esta lista para compartilhar em seu grupo de WhatsApp ou Telegram.",
+    "total": "Total",
+    "addYourNameToTheList": "Adicione seu nome na lista" ,
+    "myLastLists": "Minhas últimas listas",
+    "about": "Sobre",
+    "slogan": "Divida a conta com seus amigos",
+    "aboutText": "<p>Utilize o <strong>Split Beer</strong> para organizar aquela lista do churrasco, reunião de familia ou happy hour.</p><p class='mt-3'>Criando a sua lista por aqui, <strong>fica mais fácil</strong> compartilhar a lista entre seus grupos de <strong>WhatsApp</strong> e <strong>Telegram</strong>.</p>",
+    "copyListMsg": "Lista copiada!. Agora basta colar no grupo."
 }

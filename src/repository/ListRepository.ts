@@ -2,33 +2,62 @@ import { ListItem } from "@/models/ListItem";
 import { ListModel } from "@/models/ListModel";
 
 export class ListRepository {
-    save(model: ListModel){
-        const storage = localStorage.setItem(`list-${model.uid}`, JSON.stringify(model));    
+    save(model: ListModel): Promise<ListModel> {
+        return new Promise<ListModel>((resolve) => {
+            const storageLists = localStorage.getItem('lists');
+            let lists = [];
+            if (storageLists){
+                lists = JSON.parse(storageLists);
+            }            
+
+            const idx = lists.findIndex((m: ListModel) => m.uid === model.uid)
+            if (idx > -1){
+                lists.splice(idx, 1)
+            }
+
+            lists.push(model);
+            localStorage.setItem('lists', JSON.stringify(lists));
+            resolve(model)
+        })
     }
 
-    get(uid: string): ListModel | null {
-        const storage = localStorage.getItem(`list-${uid}`);
-        if (!storage){
-            return null;
-        }
+    get(uid: string): Promise<ListModel> {
+        return new Promise<ListModel>((resolve) => {
+            const storageLists = localStorage.getItem('lists');
+            if (!storageLists) {
+                resolve({} as ListModel);
+            }
 
-        return JSON.parse(storage);
+            const lists = JSON.parse(storageLists as string);
+            const storageItem = lists.find((m: ListModel) => m.uid === uid);
+
+            if (!storageItem){
+                resolve({} as ListModel);
+            }
+
+            resolve(<ListModel>storageItem)
+        })
     }
 
-    addItem(model: ListModel, item: ListItem){
+    addItem(model: ListModel, item: ListItem): Promise<ListModel> {
         item.id = 1;
-        if (model.items.length > 0){
+        if (model.items.length > 0) {
             item.id = (Math.max(...model.items.map(m => m.id)) + 1)
         }
-        model.items.push({...item})
-        this.save(model);
+        model.items.push({ ...item })
+        return this.save(model);
     }
 
-    removeItem(model: ListModel, item: ListItem){
-        console.log(item)
+    removeItem(model: ListModel, item: ListItem): Promise<ListModel> {
         const idx = model.items.findIndex(m => m.id === item.id);
-        console.log(idx)
         model.items.splice(idx, 1);
-        this.save(model);
+        return this.save(model);
+    }
+
+    pay(item: ListItem, value: number): Promise<ListItem> {
+        return new Promise<ListItem>((resolve) => {
+            item.value = value;
+            resolve(item)
+        })
     }
 }
