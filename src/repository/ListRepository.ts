@@ -1,63 +1,45 @@
 import { ListItem } from "@/models/ListItem";
 import { ListModel } from "@/models/ListModel";
+import { BaseRespoitory } from "./BaseRepository";
 
-export class ListRepository {
-    save(model: ListModel): Promise<ListModel> {
-        return new Promise<ListModel>((resolve) => {
-            const storageLists = localStorage.getItem('lists');
-            let lists = [];
-            if (storageLists){
-                lists = JSON.parse(storageLists);
-            }            
-
-            const idx = lists.findIndex((m: ListModel) => m.uid === model.uid)
-            if (idx > -1){
-                lists.splice(idx, 1)
-            }
-
-            lists.push(model);
-            localStorage.setItem('lists', JSON.stringify(lists));
-            resolve(model)
+export class ListRepository extends BaseRespoitory {
+    save(model: ListModel) : Promise<ListModel> {
+        return new Promise<ListModel>((resolve, reject) => {
+            this.post('/savelist', model).then(response => {
+                const data = response.data;
+                const storageLists = localStorage.getItem('lists');
+                let lists = [];
+                if (storageLists){
+                    lists = JSON.parse(storageLists);
+                }            
+    
+                const idx = lists.findIndex((m: ListModel) => m.uid === data.uid)
+                if (idx > -1){
+                    lists.splice(idx, 1)
+                }
+    
+                lists.push(data);
+                localStorage.setItem('lists', JSON.stringify(lists));
+                resolve(data)
+            }).catch((error) => {
+                reject(error)
+            })
         })
     }
 
-    get(uid: string): Promise<ListModel> {
-        return new Promise<ListModel>((resolve) => {
-            const storageLists = localStorage.getItem('lists');
-            if (!storageLists) {
-                resolve({} as ListModel);
-            }
+    find(uid: string): Promise<ListModel> {
 
-            const lists = JSON.parse(storageLists as string);
-            const storageItem = lists.find((m: ListModel) => m.uid === uid);
+        return new Promise<ListModel>((resolve, reject) => {
+            this.get(`/get/${uid}`).then((response) => {
+                const data = response.data;
+                if (!data){
+                    resolve({} as ListModel);
+                }
 
-            if (!storageItem){
-                resolve({} as ListModel);
-            }
-
-            resolve(<ListModel>storageItem)
-        })
-    }
-
-    addItem(model: ListModel, item: ListItem): Promise<ListModel> {
-        item.id = 1;
-        if (model.items.length > 0) {
-            item.id = (Math.max(...model.items.map(m => m.id)) + 1)
-        }
-        model.items.push({ ...item })
-        return this.save(model);
-    }
-
-    removeItem(model: ListModel, item: ListItem): Promise<ListModel> {
-        const idx = model.items.findIndex(m => m.id === item.id);
-        model.items.splice(idx, 1);
-        return this.save(model);
-    }
-
-    pay(item: ListItem, value: number): Promise<ListItem> {
-        return new Promise<ListItem>((resolve) => {
-            item.value = value;
-            resolve(item)
+                resolve(data);
+            }).catch((error) => {
+                reject(error)
+            })
         })
     }
 }

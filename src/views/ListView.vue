@@ -12,7 +12,7 @@
     <v-card variant="none">
       <v-card-text>
         <!-- CABEÇALHO -->
-        <div v-if="editingValue && list" class="mb-3">
+        <div v-if="loading && list" class="mb-3">
           <BasicInputs v-model="list" v-on:save="save()"></BasicInputs>
         </div>
         <div v-else class="text-center">
@@ -23,7 +23,7 @@
               size="x-small"
               variant="outlined"
               icon="fa fa-pencil"
-              @click="editingValue = true"
+              @click="loading = true"
             ></v-btn>
           </p>
         </div>
@@ -117,6 +117,7 @@
               prepend-icon="fa fa-trash"
               color="error"
               size="small"
+              :loading="deleting"
               @click="deleteName(item)"
               variant="outlined"
               block
@@ -188,7 +189,7 @@ export default defineComponent({
   },
   data() {
     return {
-      editingValue: false,
+      loading: false,
       newNameValid: false,
       eachValue: 0,
       list: {} as ListModel,
@@ -197,6 +198,7 @@ export default defineComponent({
       editName: {} as ListItem,
       listaService: {} as ListaService,
       paying: false,
+      deleting: false,
       snackbar: false,
       snackbarText: "",
     };
@@ -230,7 +232,7 @@ export default defineComponent({
       }
     },
     save() {
-      this.editingValue = false;
+      this.loading = false;
       this.calcEachValue();
     },
     addName() {
@@ -238,18 +240,33 @@ export default defineComponent({
         this.newName.sponsored = true;
       }
 
-      this.listaService.addItem(this.list, this.newName);
-      this.newName = {} as ListItem;
-      this.newName.value = undefined;
-      this.calcEachValue();
+      this.listaService
+        .addItem(this.list, this.newName)
+        .then((model) => {
+          this.newName = {} as ListItem;
+          this.newName.value = undefined;
+          this.calcEachValue();
+        })
+        .catch((error) => {
+          alert(this.$t("internalError"));
+        });
     },
     deleteName(item: ListItem) {
       if (!confirm(this.$t("confirmDelete"))) {
         return;
       }
 
-      this.listaService.removeItem(this.list, item);
-      this.calcEachValue();
+      this.deleting = true;
+      this.listaService
+        .removeItem(this.list, item)
+        .then((model) => {
+          this.deleting = false;
+          this.calcEachValue();
+        })
+        .catch((error) => {
+          this.deleting = false;
+          alert(this.$t("internalError"));
+        });
     },
     updateValueToPay(item: ListItem) {
       item.valueToPay = this.$n(
@@ -263,10 +280,18 @@ export default defineComponent({
       }
 
       this.paying = true;
-      this.listaService.pay(item, this.eachValue).then(() => {
-        this.paying = false;
-        this.listaService.save(this.list);
-      });
+      item.value = this.eachValue;
+
+      this.listaService
+        .save(this.list)
+        .then((model) => {
+          this.paying = false;
+        })
+        .catch((error) => {
+          this.paying = false;
+          item.value = undefined;
+          alert(this.$t("internalError"));
+        });
     },
     shareList() {
       const names = this.list.items.map((item: ListItem, index: number) => {
