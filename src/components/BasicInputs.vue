@@ -60,21 +60,18 @@ export default defineComponent({
 
       this.saving = true;
       if (!this.list.uid) {
-        this.list.uid = this.generateUID();
         this.list.items = []
       }
       const listaService = new ListaService();
 
-      listaService.save(this.list).then(() => {
-        this.$emit('update:modelValue', this.list)
-        this.$emit('save', this.list)
+      listaService.save(this.list).then((model) => {
+        this.$emit('update:modelValue', model)
+        this.$emit('save', model)
+      }).catch((error) => {
+        this.saving = false;
+        alert(this.$t('internalError'))
       })
     },
-    generateUID() {
-      let firstPart = (Math.random() * 46656) | 0;
-      let secondPart = (Math.random() * 46656) | 0;
-      return ("000" + firstPart.toString(36)).slice(-3) + ("000" + secondPart.toString(36)).slice(-3);
-    }
   },
   mounted() {
     this.list = this.modelValue as ListModel;

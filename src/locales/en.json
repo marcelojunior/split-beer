@@ -31,5 +31,6 @@
   "about": "About",
   "slogan": "Split the beer bill with your friends",
   "aboutText": "<p>Use <strong>Split Beer</strong> to organize that barbecue list, family gathering or happy hour.</p><p class='mt-3'>By creating your list here, it's easier to share the list between your <strong>WhatsApp</strong> and <strong>Telegram</strong> groups.</p>",
-  "copyListMsg": "Copied list. Now just paste in the group."
+  "copyListMsg": "Copied list. Now just paste in the group.",
+  "internalError": "Ops! Internal error. Try again in a few minutes."
 }

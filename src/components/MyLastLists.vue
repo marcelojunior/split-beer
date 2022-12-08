@@ -1,5 +1,5 @@
 <template>
-    <v-card v-if="myLastLists.length > 0">
+    <v-card v-if="myLastLists.length > 0" variant="none">
         <v-card-title>{{ $t('myLastLists') }}</v-card-title>
         <v-card-text>
             <v-table>
