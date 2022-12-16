@@ -28,6 +28,7 @@ import BasicInputs from '@/components/BasicInputs.vue'
 import LogoHeader from '@/components/LogoHeader.vue'
 import MyLastList from '@/components/MyLastLists.vue'
 import SelectLocale from '@/components/SelectLocale.vue'
+import { event } from 'vue-gtag'
 
 export default defineComponent({
   name: 'NewView',
@@ -39,6 +40,7 @@ export default defineComponent({
   },
   methods: {
     save(list: ListModel) {
+      event('new-list', { lang: this.$i18n.locale })
       this.$router.push(`/${list.uid}`)
     },
   }
