@@ -11,25 +11,34 @@
 
     <v-card variant="none">
       <v-card-text>
+        <div v-if="loading" class="text-center pt-3 pb-3">
+          <v-progress-linear
+            indeterminate
+            color="yellow-darken-2"
+          ></v-progress-linear>
+        </div>
         <!-- CABEÇALHO -->
-        <div v-if="loading && list" class="mb-3">
+        <div v-if="editing && list" class="mb-3">
           <BasicInputs v-model="list" v-on:save="save()"></BasicInputs>
         </div>
-        <div v-else class="text-center">
-          <p class="text-h5 font-weight-light">{{ list.description }}</p>
-          <p class="text-h4 font-weight-bold">
-            <span v-if="list.value">{{ $n(list.value, "currency") }}</span>
-            <v-btn
-              size="x-small"
-              variant="outlined"
-              icon="fa fa-pencil"
-              @click="loading = true"
-            ></v-btn>
-          </p>
-        </div>
+        <v-row v-else-if="!editing">
+          <v-col xs="9">
+            <p class="text-h5 font-weight-light">{{ list.description }}</p>
+          </v-col>
+          <v-col class="text-right">
+            <span v-if="list.value" class="text-h4 font-weight-bold">{{
+              $n(list.value, "currency")
+            }}</span>
+            <br />
+
+            <v-btn size="x-small" variant="text" @click="editing = true">{{
+              $t("edit")
+            }}</v-btn>
+          </v-col>
+        </v-row>
 
         <!-- NOVO NOME -->
-        <div class="mt-3">
+        <div class="mt-3" v-if="!loading && !editing">
           <v-text-field
             v-model="newName.name"
             :label="$t('yourName')"
@@ -177,6 +186,7 @@ import DecimalField from "@/components/DecimalField.vue";
 import MyLastList from "@/components/MyLastLists.vue";
 import SelectLocale from "@/components/SelectLocale.vue";
 import LogoHeader from "@/components/LogoHeader.vue";
+import { event } from 'vue-gtag'
 
 export default defineComponent({
   name: "ListView",
@@ -190,6 +200,7 @@ export default defineComponent({
   data() {
     return {
       loading: false,
+      editing: false,
       newNameValid: false,
       eachValue: 0,
       list: {} as ListModel,
@@ -243,6 +254,7 @@ export default defineComponent({
       this.listaService
         .addItem(this.list, this.newName)
         .then((model) => {
+          event('add_name', { lang: this.$i18n.locale })
           this.newName = {} as ListItem;
           this.newName.value = undefined;
           this.calcEachValue();
@@ -339,7 +351,9 @@ ${names.join("\n")}`;
   mounted() {
     this.listaService = new ListaService();
     const uid = this.$route.params.id as string;
+    this.loading = true;
     this.listaService.get(uid).then((list) => {
+      this.loading = false;
       if (list && list.uid) {
         this.list = list;
         this.calcEachValue();

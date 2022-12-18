@@ -40,7 +40,7 @@ export default defineComponent({
   },
   methods: {
     save(list: ListModel) {
-      event('new-list', { lang: this.$i18n.locale })
+      event('new_list', { lang: this.$i18n.locale })
       this.$router.push(`/${list.uid}`)
     },
   }

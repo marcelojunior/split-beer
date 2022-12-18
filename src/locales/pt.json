@@ -1,5 +1,4 @@
 {
-    "message": "ola i18n !!",
     "valueToSplit": "Insira o valor para dividir.",
     "listDescription": "Descreva o que está sendo dividido.",
     "newList": "Nova lista",
@@ -32,5 +31,6 @@
     "slogan": "Divida a conta com seus amigos",
     "aboutText": "<p>Utilize o <strong>Split Beer</strong> para organizar aquela lista do churrasco, reunião de familia ou happy hour.</p><p class='mt-3'>Criando a sua lista por aqui, <strong>fica mais fácil</strong> compartilhar a lista entre seus grupos de <strong>WhatsApp</strong> e <strong>Telegram</strong>.</p>",
     "copyListMsg": "Lista copiada!. Agora basta colar no grupo.",
-    "internalError": "Ops! Erro interno. Tente novamente em alguns minutos."
+    "internalError": "Ops! Erro interno. Tente novamente em alguns minutos.",
+    "confirmRemoveList": "Remover esta lista do seu histórico?"
 }
