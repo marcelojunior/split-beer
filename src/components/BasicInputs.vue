@@ -65,6 +65,7 @@ export default defineComponent({
       const listaService = new ListaService();
 
       listaService.save(this.list).then((model) => {
+        this.saving = false;
         this.$emit('update:modelValue', model)
         this.$emit('save', model)
       }).catch((error) => {

@@ -243,7 +243,7 @@ export default defineComponent({
       }
     },
     save() {
-      this.loading = false;
+      this.editing = false;
       this.calcEachValue();
     },
     addName() {
