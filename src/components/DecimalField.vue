@@ -1,56 +1,67 @@
 <template>
   <span>
-    <v-text-field v-model="valorDisplay" v-bind="$attrs" v-on:keydown="keyDown($event)" v-on:keyup="keyUp($event)"
-      v-on:focus="focus()" v-on:blur="blur()" type="text" autocomplete="do-not-autofill"></v-text-field>
+    <v-text-field
+      v-model="valorDisplay"
+      v-bind="$attrs"
+      v-on:keypress="keyDown($event)"
+      v-on:keyup="keyUp($event)"
+      v-on:focus="focus()"
+      v-on:blur="blur()"
+      type="text"
+      autocomplete="do-not-autofill"
+    ></v-text-field>
     <input type="hidden" :id="id" :name="name" :modelValue="modelValue" />
   </span>
 </template>
   
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 export default defineComponent({
   name: "DecimalField",
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   props: {
     modelValue: null,
     precisao: {
       type: Number,
-      default: 2
+      default: 2,
     },
     id: {
       type: String,
-      default: ""
+      default: "",
     },
     name: {
       type: String,
-      default: ""
+      default: "",
     },
     somentePositivos: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      valorDisplay: ""
+      valorDisplay: "",
     };
   },
   watch: {
     modelValue(v) {
       this.parseDisplay();
-    }
+    },
   },
   methods: {
     parseDisplay() {
       let format = {
         minimumFractionDigits: this.precisao,
-        maximumFractionDigits: this.precisao
+        maximumFractionDigits: this.precisao,
       };
 
       if (this.modelValue == null || this.modelValue == "") {
         this.valorDisplay = "";
       } else {
-        this.valorDisplay = this.modelValue.toLocaleString(navigator.language, format);
+        this.valorDisplay = this.modelValue.toLocaleString(
+          navigator.language,
+          format
+        );
       }
     },
     focus() {
@@ -60,16 +71,19 @@ export default defineComponent({
     },
     blur() {
       if (this.valorDisplay == "" || this.valorDisplay == null) {
-        this.$emit('update:modelValue', 0);
+        this.$emit("update:modelValue", 0);
       } else {
         let valorDecimal = parseFloat(
           this.valorDisplay.replace(/\./g, "").replace(/,/g, ".")
         );
-        this.$emit('update:modelValue', parseFloat(valorDecimal.toFixed(this.precisao)));
+        this.$emit(
+          "update:modelValue",
+          parseFloat(valorDecimal.toFixed(this.precisao))
+        );
       }
       setTimeout(() => {
         this.parseDisplay();
-      }, 100)
+      }, 100);
     },
     keyDown(event: any) {
       let allow = [
@@ -91,10 +105,9 @@ export default defineComponent({
         "ArrowUp",
         "ArrowRight",
         "ArrowLeft",
-        "ArrowDown"
+        "ArrowDown",
       ];
-      if (this.somentePositivos)
-        allow.splice(allow.indexOf("-"), 1);
+      if (this.somentePositivos) allow.splice(allow.indexOf("-"), 1);
       if (!allow.includes(event.key)) {
         event.preventDefault();
       }
@@ -103,10 +116,10 @@ export default defineComponent({
       if (event.key == ".") {
         event.target.value = event.target.value.replace(/\./g, ",");
       }
-    }
+    },
   },
   mounted() {
     this.parseDisplay();
-  }
+  },
 });
 </script>
